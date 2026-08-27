@@ -5,7 +5,7 @@
   "scripts": {
     "backend:install": "cd backend && npm install",
     "backend:setup": "cd backend && npx prisma db push",
-    "redis:check": "cd backend && node -r dotenv/config -e \"const Redis=require('ioredis'); const redis=new Redis({host:process.env.REDIS_HOST||'127.0.0.1',port:Number(process.env.REDIS_PORT||6379),lazyConnect:true}); redis.connect().then(()=>redis.ping()).then(result=>{if(result!=='PONG') throw new Error('Redis did not return PONG'); console.log('Redis connected'); return redis.quit()}).catch(error=>{console.error('Redis connection failed:',error.message); process.exit(1)})\"",
+    "redis:check": "cd backend && node -r dotenv/config -e \"const Redis=require('ioredis'); const redis=new Redis({host:process.env.REDIS_HOST||'127.0.0.1',port:Number(process.env.REDIS_PORT||6379),password:process.env.REDIS_PASSWORD||undefined,tls:process.env.REDIS_TLS==='true'?{}:undefined,lazyConnect:true}); redis.connect().then(()=>redis.ping()).then(result=>{if(result!=='PONG') throw new Error('Redis did not return PONG'); console.log('Redis connected'); return redis.quit()}).catch(error=>{console.error('Redis connection failed:',error.message); process.exit(1)})\"",
     "backend:dev": "cd backend && npm run dev",
     "frontend:install": "cd frontend && npm install",
     "frontend:dev": "cd frontend && npm run dev",

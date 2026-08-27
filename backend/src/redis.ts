@@ -12,6 +12,8 @@ function createConnection(name: string) {
     maxRetriesPerRequest: null,
     enableReadyCheck: false,
     connectionName: name,
+    password: config.redis.password,
+    ...(config.redis.tls ? { tls: {} } : {}),
     lazyConnect: true,
     connectTimeout: 3000,
     retryStrategy(times) {

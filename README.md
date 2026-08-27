@@ -2,6 +2,8 @@
 
 A production-grade email scheduler service + dashboard built with Express.js, BullMQ, MySQL, and Next.js.
 
+For production hosting, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## Sample Output
 
 The running application includes these primary views:
