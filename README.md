@@ -9,12 +9,6 @@ The running application includes these primary views:
 - Landing page with the Outbox delivery-desk introduction.
 - Dashboard with scheduled, sent, and failed email counts, queue tabs, and the compose action.
 
-To add screenshots, save them as `docs/screenshots/landing.png` and `docs/screenshots/dashboard.png`, then add them here:
-
-```markdown
-![Outbox landing page](docs/screenshots/landing.png)
-![Outbox dashboard](docs/screenshots/dashboard.png)
-```
 
 The repository is intended to be private. Never commit `backend/.env` or any file containing passwords, OAuth secrets, or SMTP credentials.
 
