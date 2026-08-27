@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #101316;
+  --bg-secondary: #171b1f;
+  --bg-card: #1d2328;
+  --text-primary: #f5f1e8;
+  --text-secondary: #9ba4a8;
+  --accent: #f08a5d;
+  --accent-hover: #ff9c70;
+  --success: #63c29a;
+  --danger: #ef7474;
+  --warning: #e6b85c;
+  --border: #30383e;
+}
+
+body {
+  background: radial-gradient(circle at 90% -10%, #27333a 0, transparent 32rem), var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+::selection { background: rgba(240, 138, 93, 0.28); color: var(--text-primary); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise-in { animation: riseIn 0.55s ease-out both; }
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }

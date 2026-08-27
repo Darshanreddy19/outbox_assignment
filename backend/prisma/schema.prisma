@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  avatar    String?
+  createdAt DateTime @default(now())
+  emails    ScheduledEmail[]
+}
+
+model ScheduledEmail {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  recipientEmail String
+  subject        String
+  body           String   @db.Text
+  senderEmail    String
+  scheduledTime  DateTime
+  status         String   @default("scheduled")
+  bullJobId      String?  @unique
+  sentAt         DateTime?
+  errorMessage   String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId, status])
+  @@index([status, scheduledTime])
+  @@index([senderEmail, scheduledTime])
+}
+
+model SenderConfig {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+}
