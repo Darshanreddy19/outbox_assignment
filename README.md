@@ -194,4 +194,4 @@ BullMQ stores jobs in Redis. MySQL stores email metadata. On restart:
 
 - **Backend**: Express.js, TypeScript, Prisma, BullMQ, Ethereal SMTP
 - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
-- **Infrastructure**: MySQL 8, Redis 7 (native services)
+- **Infrastructure**: MySQL 8, Redis 7 (native locally; hosted in production)

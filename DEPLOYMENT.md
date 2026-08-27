@@ -2,9 +2,33 @@
 
 ## Recommended production layout
 
-Use Vercel for the Next.js frontend and a persistent Node.js service for the Express API and BullMQ worker. Vercel functions are request-based and can stop between requests, so they should not run the BullMQ worker.
+Use Render for both the Next.js frontend and the persistent Express API. The backend process also runs the BullMQ worker. Vercel functions are request-based and can stop between requests, so they should not run this worker.
 
-You also need hosted MySQL and Redis. PlanetScale, Railway, or another MySQL provider can host the database. Upstash Redis or Redis Cloud can host Redis.
+You also need hosted MySQL and Redis. Render does not provide MySQL, so use PlanetScale, Aiven, or another hosted MySQL provider. Use Redis Cloud or Upstash for Redis.
+
+The repository includes `render.yaml` for the two Render web services.
+
+## Render deployment
+
+1. Open [Render](https://render.com/) and connect your GitHub account.
+2. Create a Blueprint from `Darshanreddy19/outbox_assignment`.
+3. Render will detect `render.yaml` and create `outbox-backend` and `outbox-frontend`.
+4. Use a paid backend instance so the BullMQ worker remains continuously running. A sleeping instance cannot reliably process scheduled email jobs.
+5. Add the hosted MySQL and Redis values to the secret environment variables requested by Render.
+6. After the first deploy, copy the generated backend and frontend URLs into `FRONTEND_URL` and `NEXT_PUBLIC_API_URL`.
+7. Set `GOOGLE_REDIRECT_URI` to the backend callback URL and redeploy.
+
+Deploy the database schema from the backend service shell:
+
+```bash
+npx prisma db push
+```
+
+Then verify:
+
+```text
+https://<backend-domain>/api/health
+```
 
 ## 1. Deploy the backend and worker
 
@@ -47,26 +71,21 @@ https://<backend-domain>/api/health
 
 The response should include `"redis":"connected"`.
 
-## 2. Deploy the frontend to Vercel
+## Frontend environment
 
-1. Import the GitHub repository into Vercel.
-2. Select `frontend` as the Root Directory.
-3. Keep the framework as Next.js.
-4. Set the environment variable:
+Set this environment variable on the Render frontend service:
 
 ```text
 NEXT_PUBLIC_API_URL=https://<backend-domain>
 ```
 
-5. Deploy the project.
-
-## 3. Update Google OAuth
+## Update Google OAuth
 
 In Google Cloud Console, update the OAuth web client:
 
 ```text
 Authorized JavaScript origin:
-https://<vercel-domain>
+https://<frontend-domain>
 
 Authorized redirect URI:
 https://<backend-domain>/api/auth/google/callback
@@ -80,7 +99,7 @@ http://localhost:3001/api/auth/google/callback
 
 ## 4. Verify the complete deployment
 
-Open the Vercel URL and sign in with Google. Confirm that:
+Open the Render frontend URL and sign in with Google. Confirm that:
 
 - The Google account chooser and consent screen appear.
 - The dashboard loads after the callback.
